@@ -8,14 +8,15 @@ you can read the book "Make Your Own Neural Network" written by Tariq Rashid.
 """
 import csv
 import random
+import math
 
 # Set some primary variables.
-L = 0.5
+L = 0.3
 A = 0.1
 writer = None
 
 
-def iteration(x, m, iY, Layer, pLayer):
+def iteration(x, m, iY, Layer, pLayer, detail=True):
     global A, L, writer
 
     # Calculate and update the variables.
@@ -31,16 +32,16 @@ def iteration(x, m, iY, Layer, pLayer):
 
     # Iteration
     if Layer>=pLayer:
-        print("The value of A after training:{}".format(A))
-        print("iY={}, rY={}, x={}, A={}, dA={}, L={}, m={}, E={}".format(iY, rY, x, A, dA, L, m, E))
+        if detail == True: print("The value of A after training:{}".format(A))
+        if detail == True: print("iY={}, rY={}, x={}, A={}, dA={}, L={}, m={}, E={}".format(iY, rY, x, A, dA, L, m, E))
         # here is where the truly return value defined
-        backback = A
+        back = A
     else:
-        backback = iteration(x, m, iY, Layer+1, pLayer)
-    return backback
+        back = iteration(x, m, iY, Layer+1, pLayer, detail)
+    return back
 
 
-def main():
+def main(detail=True):
     global L, A, writer
 
     # Get the data.
@@ -53,6 +54,7 @@ def main():
     del temp
 
     # Training.
+    print("Training.")
     write_file = open(r".\data_per.csv", "w", encoding="utf-8")
     writer = csv.writer(write_file)
     writer.writerow(["iY", "rY", "E"])
@@ -60,7 +62,7 @@ def main():
     for aline in source_data:
         x = float(aline[0])
         iY = float(aline[-1])
-        As.append(iteration(x, 0, iY, 0, 69))
+        As.append(iteration(x, 0, iY, 0, int(math.ceil(69/L*0.5)), detail))
 
     # Calculate the average.
     temp = 0
@@ -69,9 +71,10 @@ def main():
         temp+=A_
         counter +=1
     average_of_A = temp/counter
-    print("average_of_A: "+str(average_of_A))
-    print("real_A: "+str(average_of_A*L))
+    if detail == True: print("average_of_A: "+str(average_of_A))
+    print("A: "+str(average_of_A*L))
     write_file.close()
+    return average_of_A*L
 
 if __name__ == "__main__":
-    main()
+    main() 
