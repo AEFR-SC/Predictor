@@ -1,3 +1,11 @@
+"""
+author: Steve
+finish date: 2022.1.11
+email: apesc1116@outlook.com
+This is just a simple program.
+If you want to learn more about Neural Network, 
+you can read the book "Make Your Own Neural Network" written by Tariq Rashid.
+"""
 import easygui as eg
 import data_writer
 import predictor
