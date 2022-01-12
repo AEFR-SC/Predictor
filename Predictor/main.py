@@ -20,6 +20,8 @@ def main():
     real_result = data_writer.main(times, detail__)
     result_after_training = predictor.main(detail__)
     bool_return = abs(real_result-result_after_training)<=1
+    file = open(r".\result.txt", "a", encoding="utf-8")
+    file.write(str(int(bool_return)))
     if bool_return:
         print("TRUE.")
     else:
